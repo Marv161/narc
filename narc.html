@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NARC | Dark Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Agregamos Roboto Mono con peso 100 (Thin) para el título y mantenemos Share Tech Mono para el resto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Reset y Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000000;
+            background-image: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+            color: #e0e0e0;
+        }
+
+        /* Efecto de ruido sutil */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Contenedor Principal */
+        .card-container {
+            position: relative;
+            z-index: 10;
+            background: transparent;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            max-width: 400px;
+            width: 90%;
+            animation: fadeIn 2s ease-out;
+        }
+
+        /* Texto NARC - Estilo Namegrad/Namewave */
+        h1.title {
+            font-family: 'Roboto Mono', monospace; /* Cambiado a Roboto Mono para tener peso '100' */
+            font-weight: 100; /* Letra muy fina */
+            font-size: 1.5rem;
+            letter-spacing: 0.8em;
+            text-transform: uppercase;
+            margin: 0;
+            line-height: 1;
+            margin-right: -0.8em;
+            
+            /* Gradiente Horizontal Animado (Efecto Namewave) */
+            /* Secuencia: Negro -> Plata Oscura -> Blanco Brillante -> Plata Oscura -> Negro */
+            background: linear-gradient(
+                to right, 
+                #111 0%, 
+                #444 40%, 
+                #fff 50%, 
+                #444 60%, 
+                #111 100%
+            );
+            background-size: 200% auto;
+            
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            /* Glow constante + Animación de brillo */
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+            
+            /* Animación compuesta: Mueve el gradiente Y pulsa el glow */
+            animation: shine 4s linear infinite, glowPulse 3s infinite alternate;
+        }
+
+        /* Contenedor de imagen */
+        .image-wrapper {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .main-image {
+            width: 140px;
+            height: auto;
+            display: block;
+            filter: grayscale(100%) contrast(1.1);
+            transition: filter 0.8s ease, transform 0.5s ease;
+            mix-blend-mode: luminosity;
+        }
+
+        /* Estado difuminado */
+        .main-image.blurred {
+            filter: blur(8px) grayscale(100%) opacity(0.6);
+            transform: scale(0.95);
+        }
+
+        .main-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Estilo para la nueva frase */
+        .phrase {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: #8a8a8a;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-top: 1.5rem;
+            text-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            animation: fadeUp 2s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 0.7; transform: translateY(0); }
+        }
+
+        /* Mueve el gradiente hacia la derecha */
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Pulso sutil del resplandor */
+        @keyframes glowPulse {
+            from { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.1)); }
+            to { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5)); }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="card-container">
+        <!-- Solo queda el NARC -->
+        <h1 class="title">NARC</h1>
+
+        <!-- Imagen interactiva -->
+        <div class="image-wrapper" onclick="toggleBlur(this)">
+            <img src="https://i.ibb.co/ZRDR1wT9/narc.png" alt="Narc Emblem" class="main-image" id="narcImage">
+        </div>
+
+        <!-- Frase estilizada -->
+        <div class="phrase">No matters the distance</div>
+    </main>
+
+    <script>
+        function toggleBlur(element) {
+            const img = document.getElementById('narcImage');
+            img.classList.toggle('blurred');
+        }
+    </script>
+
+</body>
+</html>
