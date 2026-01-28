@@ -3,181 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NARC | Dark Portal</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Agregamos Roboto Mono con peso 100 (Thin) para el título y mantenemos Share Tech Mono para el resto -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
+    <title>Sukuna</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Sans+JP:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Reset y Base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background-color: #000000;
-            background-image: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
+            font-family: 'Cinzel', serif;
+            background-color: #00050a;
+            background-image: radial-gradient(circle at 50% 50%, #0b1a2e 0%, #000000 100%);
+            color: white;
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Share Tech Mono', monospace;
+            width: 100vw;
             overflow: hidden;
-            color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
         }
 
-        /* Efecto de ruido sutil */
-        body::before {
-            content: "";
+        /* --- EFECTO DE FRAGMENTACIÓN REFINADO --- */
+        .fragment-text {
+            position: relative;
+            color: #ffffff;
+            font-weight: 900;
+            display: inline-block;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px rgba(0, 170, 255, 0.3);
+        }
+
+        .fragment-text::before,
+        .fragment-text::after {
+            content: attr(data-text);
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
-            opacity: 0.4;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Contenedor Principal */
-        .card-container {
-            position: relative;
-            z-index: 10;
             background: transparent;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-            max-width: 400px;
-            width: 90%;
-            animation: fadeIn 2s ease-out;
         }
 
-        /* Texto NARC - Estilo Namegrad/Namewave */
-        h1.title {
-            font-family: 'Roboto Mono', monospace; /* Cambiado a Roboto Mono para tener peso '100' */
-            font-weight: 100; /* Letra muy fina */
-            font-size: 1.5rem;
-            letter-spacing: 0.8em;
-            text-transform: uppercase;
-            margin: 0;
-            line-height: 1;
-            margin-right: -0.8em;
-            
-            /* Gradiente Horizontal Animado (Efecto Namewave) */
-            /* Secuencia: Negro -> Plata Oscura -> Blanco Brillante -> Plata Oscura -> Negro */
-            background: linear-gradient(
-                to right, 
-                #111 0%, 
-                #444 40%, 
-                #fff 50%, 
-                #444 60%, 
-                #111 100%
-            );
-            background-size: 200% auto;
-            
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            
-            /* Glow constante + Animación de brillo */
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
-            
-            /* Animación compuesta: Mueve el gradiente Y pulsa el glow */
-            animation: shine 4s linear infinite, glowPulse 3s infinite alternate;
+        .fragment-text::before {
+            color: #000000;
+            z-index: -1;
+            left: -2px;
+            animation: glitch-black 0.5s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+            -webkit-text-stroke: 0.5px #00aaff;
         }
 
-        /* Contenedor de imagen */
-        .image-wrapper {
-            position: relative;
+        .fragment-text::after {
+            color: #ffffff;
+            z-index: -2;
+            left: 2px;
+            animation: glitch-blue 0.5s reverse infinite;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+            text-shadow: -1px 0 #00aaff;
+        }
+
+        @keyframes glitch-black {
+            0% { transform: translate(0); }
+            50% { transform: translate(-2px, 1px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-blue {
+            0% { transform: translate(0); }
+            50% { transform: translate(2px, -1px); }
+            100% { transform: translate(0); }
+        }
+
+        /* --- ANIMACIONES --- */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .jp-text {
+            font-family: 'Noto Sans JP', sans-serif;
+        }
+
+        .glass-panel {
+            background: linear-gradient(rgba(0,10,20,0.8), rgba(0,10,20,0.8)), 
+                        url('https://xatimg.com/image/JoUdAIwiyq92.png');
+            background-size: cover;
+            background-position: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 170, 255, 0.15);
+            box-shadow: 0 15px 50px 0 rgba(0, 0, 0, 0.8);
+        }
+
+        /* --- REPRODUCTOR COMPACTO POSICIONADO --- */
+        #musicPlayer {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #musicPlayer.minimized {
+            width: 50px !important;
+            height: 50px !important;
+            padding: 0px; 
+            border-radius: 50%;
+            background: rgba(0, 15, 30, 0.95);
+            border-color: rgba(0, 170, 255, 0.6);
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #musicPlayer.minimized .player-content,
+        #musicPlayer.minimized #closePlayer {
+            display: none;
+        }
+        
+        #musicPlayer.minimized > div {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
         }
 
-        .main-image {
-            width: 140px;
-            height: auto;
-            display: block;
-            filter: grayscale(100%) contrast(1.1);
-            transition: filter 0.8s ease, transform 0.5s ease;
-            mix-blend-mode: luminosity;
+        img {
+            -webkit-user-drag: none;
+            pointer-events: none;
         }
 
-        /* Estado difuminado */
-        .main-image.blurred {
-            filter: blur(8px) grayscale(100%) opacity(0.6);
-            transform: scale(0.95);
-        }
-
-        .main-image:hover {
-            transform: scale(1.02);
-        }
-
-        /* Estilo para la nueva frase */
-        .phrase {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.6rem;
-            color: #8a8a8a;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            margin-top: 1.5rem;
-            text-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
+        /* --- LISTA DE AMIGOS CURRICULUM STYLE --- */
+        #friendsList {
+            max-height: 0;
             opacity: 0;
-            animation: fadeUp 2s ease-out forwards;
-            animation-delay: 0.5s;
+            transition: all 0.5s ease;
+            overflow: hidden;
+            width: 100%;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        #friendsList.open {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 1rem;
+            padding-top: 12px;
+            padding-bottom: 12px;
         }
 
-        /* Animaciones */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .friend-img {
+            border: 1px solid rgba(0, 170, 255, 0.2);
+            transition: all 0.3s ease;
         }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 0.7; transform: translateY(0); }
+        .friend-item:hover .friend-img {
+            border-color: #00aaff;
+            box-shadow: 0 0 10px rgba(0, 170, 255, 0.4);
+            transform: scale(1.05);
         }
-
-        /* Mueve el gradiente hacia la derecha */
-        @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
+        
+        .marquee {
+            white-space: nowrap;
+            overflow: hidden;
+            box-sizing: border-box;
         }
-
-        /* Pulso sutil del resplandor */
-        @keyframes glowPulse {
-            from { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.1)); }
-            to { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5)); }
+        .marquee p {
+            display: inline-block;
+            padding-left: 100%;
+            animation: marquee 10s linear infinite;
+        }
+        @keyframes marquee {
+            0%   { transform: translate(0, 0); }
+            100% { transform: translate(-100%, 0); }
         }
     </style>
 </head>
-<body>
+<body class="p-4 relative" id="bodyRoot">
 
-    <main class="card-container">
-        <!-- Solo queda el NARC -->
-        <h1 class="title">NARC</h1>
+    <!-- Decoración de Fondo -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-blue-900/10 rounded-full filter blur-[120px]"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-cyan-900/10 rounded-full filter blur-[120px]"></div>
+    </div>
 
-        <!-- Imagen interactiva -->
-        <div class="image-wrapper" onclick="toggleBlur(this)">
-            <img src="https://i.ibb.co/ZRDR1wT9/narc.png" alt="Narc Emblem" class="main-image" id="narcImage">
+    <!-- Contenedor Estilo Currículum / Ficha -->
+    <main class="main-container relative w-full max-w-2xl h-auto max-h-[95vh] glass-panel rounded-2xl p-6 md:p-8 flex flex-col items-center border-t border-white/10 shadow-2xl z-10">
+        
+        <!-- Título Pequeño y Centrado -->
+        <div class="text-center mb-4">
+            <h2 class="text-xl md:text-3xl lg:text-4xl fragment-text jp-text tracking-[0.15em]" data-text="祝福された">
+                祝福された
+            </h2>
+            <div class="h-px w-24 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent mx-auto mt-2"></div>
         </div>
 
-        <!-- Frase estilizada -->
-        <div class="phrase">No matter the distance</div>
+        <!-- Imagen Principal Reducida y Centrada -->
+        <div class="relative flex flex-col justify-center items-center w-full mb-6">
+            <div class="absolute w-48 md:w-64 aspect-square border border-cyan-500/10 rounded-full pointer-events-none"></div>
+            
+            <img src="https://xatimg.com/image/jNe6hpHmexU7.png" 
+                 alt="Sukuna" 
+                 class="h-[18vh] md:h-[25vh] w-auto object-contain animate-float drop-shadow-[0_0_20px_rgba(0,170,255,0.2)] brightness-110 z-10">
+        </div>
+
+        <!-- Botón Amigos Reducido (Solo Japonés) -->
+        <div class="w-full flex flex-col items-center mb-4">
+            <button id="toggleFriends" class="group relative px-8 py-1.5 bg-blue-950/30 border border-cyan-600/30 rounded-lg hover:bg-blue-800/50 transition-all duration-300">
+                <span class="jp-text text-base md:text-xl font-medium tracking-[0.3em] text-cyan-100/80 group-hover:text-white">友達</span>
+            </button>
+
+            <!-- Lista de Amigos Ajustada -->
+            <div id="friendsList" class="flex justify-center flex-wrap gap-4 md:gap-6 items-center">
+                <a href="https://xat.me/iLuguinhoo" target="_blank" class="friend-item flex flex-col items-center gap-1.5 cursor-pointer">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden friend-img">
+                        <img src="https://i.pinimg.com/originals/6d/19/ef/6d19efefb4a82eda8e8eaa6908ca8d8f.jpg" class="w-full h-full object-cover" alt="Lugo">
+                    </div>
+                    <span class="text-[9px] md:text-[10px] font-bold text-cyan-100/60 jp-text">Lugo</span>
+                </a>
+                <a href="https://xat.me/iveneccooo" target="_blank" class="friend-item flex flex-col items-center gap-1.5 cursor-pointer">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden friend-img">
+                        <img src="https://xatimg.com/image/BRnPELeXHfNE.jpg" class="w-full h-full object-cover" alt="Emilio">
+                    </div>
+                    <span class="text-[9px] md:text-[10px] font-bold text-cyan-100/60 jp-text">Emilio</span>
+                </a>
+                <a href="https://xat.me/hielok" target="_blank" class="friend-item flex flex-col items-center gap-1.5 cursor-pointer">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden friend-img">
+                        <img src="https://i.pinimg.com/736x/b7/7c/3a/b77c3a49bd2628b8c5917c0a6098ca1d.jpg" class="w-full h-full object-cover" alt="Hielok">
+                    </div>
+                    <span class="text-[9px] md:text-[10px] font-bold text-cyan-100/60 jp-text">Hielok</span>
+                </a>
+                <a href="https://xat.me/nece" target="_blank" class="friend-item flex flex-col items-center gap-1.5 cursor-pointer">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden friend-img">
+                        <img src="https://cdn.somoskudasai.com/image/27ed3c95c842b440b6ff63ecc15cfeba/452x263/portada_boku-no-kokoro-no-yabai-26.webp" class="w-full h-full object-cover" alt="Nece">
+                    </div>
+                    <span class="text-[9px] md:text-[10px] font-bold text-cyan-100/60 jp-text">Nece</span>
+                </a>
+                <a href="https://xat.me/marv" target="_blank" class="friend-item flex flex-col items-center gap-1.5 cursor-pointer">
+                    <div class="w-12 h-12 md:w-14 md:h-14 rounded-full overflow-hidden friend-img">
+                        <img src="https://i0.wp.com/codigoespagueti.com/wp-content/uploads/2022/03/yuta-okkotsu-jujutsu-kaisen-0.jpg" class="w-full h-full object-cover" alt="Marvin">
+                    </div>
+                    <span class="text-[9px] md:text-[10px] font-bold text-cyan-100/60 jp-text">Marvin</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Reproductor Muy Compacto -->
+        <div id="musicPlayer" class="fixed bottom-6 right-6 w-full max-w-[240px] glass-panel rounded-xl p-2.5 flex flex-col gap-2 border border-blue-900/40 shadow-lg bg-black/80 z-50">
+            <div class="flex items-center gap-3 relative">
+                <div id="discTrigger" class="relative w-8 h-8 rounded-full overflow-hidden flex-shrink-0 border border-cyan-500/30">
+                    <img id="discImg" src="https://images.genius.com/a64e8412179f82aee982bacf95fb88fd.1000x1000x1.png" class="w-full h-full object-cover animate-[spin_10s_linear_infinite]" alt="Feid - Se Lo Juro Mor" style="pointer-events: auto;">
+                </div>
+                <div class="flex-1 overflow-hidden player-content">
+                    <div class="marquee">
+                         <p class="text-[9px] font-bold text-cyan-100 tracking-tight whitespace-nowrap uppercase">Feid - Se Lo Juro Mor</p>
+                    </div>
+                    <div class="flex gap-1 mt-1">
+                        <span class="w-0.5 h-2 bg-cyan-500 rounded-full animate-pulse"></span>
+                        <span class="w-0.5 h-3 bg-blue-600 rounded-full animate-pulse [animation-delay:0.2s]"></span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 player-content">
+                    <i id="playPause" class="fa-solid fa-play text-cyan-200 text-[10px] cursor-pointer hover:text-white" style="pointer-events: auto;"></i>
+                    <i id="closePlayer" class="fa-solid fa-xmark text-cyan-200/50 text-[10px] cursor-pointer hover:text-red-500" style="pointer-events: auto;"></i>
+                </div>
+            </div>
+            <div class="w-full bg-neutral-900 h-0.5 rounded-full overflow-hidden player-content">
+                <div id="audioProgress" class="bg-cyan-500 w-0 h-full rounded-full transition-all"></div>
+            </div>
+            <audio id="mainAudio" src="juro.mp3" loop></audio>
+        </div>
+
+        <!-- Kanji sutil de fondo -->
+        <div class="absolute bottom-4 left-4 text-6xl font-bold text-cyan-600 opacity-[0.05] pointer-events-none jp-text">
+            呪
+        </div>
     </main>
 
     <script>
-        function toggleBlur(element) {
-            const img = document.getElementById('narcImage');
-            img.classList.toggle('blurred');
-        }
-    </script>
+        // --- PROTECCIÓN ---
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+        document.addEventListener('keydown', e => {
+            if (e.keyCode === 123 || ((e.ctrlKey || e.metaKey) && (e.keyCode === 85 || e.keyCode === 83))) e.preventDefault();
+        });
 
+        // --- LÓGICA AMIGOS ---
+        const btnFriends = document.getElementById('toggleFriends');
+        const listFriends = document.getElementById('friendsList');
+        btnFriends.addEventListener('click', () => {
+            listFriends.classList.toggle('open');
+        });
+
+        // --- LÓGICA REPRODUCTOR & AUTOPLAY ---
+        const musicPlayer = document.getElementById('musicPlayer');
+        const playBtn = document.getElementById('playPause');
+        const closeBtn = document.getElementById('closePlayer');
+        const discImg = document.getElementById('discImg');
+        const audio = document.getElementById('mainAudio');
+        const progress = document.getElementById('audioProgress');
+        let isPlaying = false; 
+        let minimizeTimeout;
+
+        // Inicia pausado visualmente
+        if (discImg) discImg.style.animationPlayState = 'paused';
+
+        const startMinimizeTimer = () => {
+            clearTimeout(minimizeTimeout);
+            minimizeTimeout = setTimeout(() => {
+                if (!musicPlayer.matches(':hover')) {
+                    musicPlayer.classList.add('minimized');
+                }
+            }, 4500);
+        };
+
+        const expand = () => {
+            musicPlayer.classList.remove('minimized');
+            startMinimizeTimer();
+        };
+
+        startMinimizeTimer();
+
+        // Expansión por interacción
+        musicPlayer.addEventListener('click', (e) => {
+            if (musicPlayer.classList.contains('minimized')) {
+                expand();
+                e.stopPropagation();
+            }
+        });
+        musicPlayer.addEventListener('mouseenter', () => {
+            musicPlayer.classList.remove('minimized');
+            clearTimeout(minimizeTimeout);
+        });
+        musicPlayer.addEventListener('mouseleave', () => startMinimizeTimer());
+        closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            musicPlayer.classList.add('minimized');
+        });
+        document.addEventListener('click', (e) => {
+            if (!musicPlayer.contains(e.target)) musicPlayer.classList.add('minimized');
+        });
+
+        // Función Maestra de Reproducción
+        const attemptPlay = () => {
+            if (isPlaying) return; // Si ya está sonando, no hacemos nada
+            
+            audio.play().then(() => {
+                isPlaying = true;
+                playBtn.className = 'fa-solid fa-pause text-cyan-200 text-[10px] cursor-pointer';
+                if (discImg) discImg.style.animationPlayState = 'running';
+                removeAutoplayListeners();
+            }).catch(err => {
+                console.log("Autoplay bloqueado por el navegador. Esperando interacción.");
+            });
+        };
+
+        // Escuchadores para "Autoplay Forzado" tras interacción
+        const removeAutoplayListeners = () => {
+            document.removeEventListener('mousemove', attemptPlay);
+            document.removeEventListener('click', attemptPlay);
+            document.removeEventListener('touchstart', attemptPlay);
+            document.removeEventListener('scroll', attemptPlay);
+            window.removeEventListener('keydown', attemptPlay);
+        };
+
+        // Intentar sonar al cargar (falla habitualmente sin interacción previa)
+        window.addEventListener('load', () => {
+            setTimeout(attemptPlay, 100);
+        });
+
+        // Alternativa: Activar en cualquier interacción mínima
+        document.addEventListener('mousemove', attemptPlay, { once: false });
+        document.addEventListener('click', attemptPlay, { once: false });
+        document.addEventListener('touchstart', attemptPlay, { once: false });
+        document.addEventListener('scroll', attemptPlay, { once: false });
+        window.addEventListener('keydown', attemptPlay, { once: false });
+
+        // Control Manual Play/Pause
+        if(playBtn) {
+            playBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                if (isPlaying) {
+                    audio.pause();
+                    playBtn.className = 'fa-solid fa-play text-cyan-200 text-[10px] cursor-pointer';
+                    if (discImg) discImg.style.animationPlayState = 'paused';
+                    isPlaying = false;
+                } else {
+                    attemptPlay();
+                }
+                startMinimizeTimer();
+            });
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const percent = (audio.currentTime / audio.duration) * 100;
+            progress.style.width = percent + '%';
+        });
+
+    </script>
 </body>
 </html>
-
